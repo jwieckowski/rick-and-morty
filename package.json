@@ -20,6 +20,8 @@
   "homepage": "https://github.com/jwieckowski/rick-and-morty#readme",
   "dependencies": {
     "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "axios": "^0.21.0",
     "express": "^4.17.1",
     "file-loader": "^6.2.0",
     "react": "^17.0.1",
