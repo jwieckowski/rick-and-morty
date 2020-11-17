@@ -11,6 +11,7 @@ const App = () => (
       <Route path='/characters' component={Dashboard} />
       <Route path='/locations' component={Dashboard} />
       <Route path='/episodes' component={Dashboard} />
+      <Route path='/details' component={Dashboard} />
       <Redirect to='/' />
     </Switch>
   </Layout>

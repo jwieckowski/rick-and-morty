@@ -31,6 +31,34 @@ const fetchSourceFail = (state, action) => {
   }
 }
 
+const fetchMoreSourceStart = (state, action) => {
+  return {
+    ...state,
+    loading: true,
+    loadError: undefined
+  }
+}
+
+const fetchMoreSourceSuccess = (state, action) => {
+  return {
+    ...state,
+    data: {
+      info: action.data.info,
+      results: [...state.data.results, ...action.data.results]
+    },
+    loading: false,
+    loadError: undefined
+  }
+}
+
+const fetchMoreSourceFail = (state, action) => {
+  return {
+    ...state,
+    loading: false,
+    loadError: action.error
+  }
+}
+
 export default function home (state = initialState, action) {
   switch (action.type) {
     case actions.SOURCE_FETCH_START:
@@ -39,6 +67,12 @@ export default function home (state = initialState, action) {
       return fetchSourceSuccess(state, action)
     case actions.SOURCE_FETCH_FAIL:
       return fetchSourceFail(state, action)
+    case actions.SOURCE_FETCH_MORE_START:
+      return fetchMoreSourceStart(state, action)
+    case actions.SOURCE_FETCH_MORE_SUCCESS:
+      return fetchMoreSourceSuccess(state, action)
+    case actions.SOURCE_FETCH_MORE_FAIL:
+      return fetchMoreSourceFail(state, action)
     default:
       return state
   }

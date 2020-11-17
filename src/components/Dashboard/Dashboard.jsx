@@ -8,8 +8,10 @@ import { fetchSource } from '../../data/actions/source'
 
 import HomePage from '../HomePage'
 import Characters from '../Characters'
+import CharacterDetails from '../CharacterDetails'
 import Locations from '../Locations'
 import Episodes from '../Episodes'
+
 
 import Spinner from '../UI/Spinner'
 import Page404 from '../UI/Page404'
@@ -18,7 +20,6 @@ const useStyles = makeStyles({
   root: {
     width: '100%',
     height: 'calc(100% - 64px)',
-    // backgroundColor: 'blue',
     margin: 0,
     boxSizing: 'border-box',
     alignItems: 'center',
@@ -37,7 +38,8 @@ const switchContent = (path, data) => {
     '/': <HomePage data={data} />,
     '/characters': <Characters />,
     '/locations': <Locations />,
-    '/episodes': <Episodes />
+    '/episodes': <Episodes />,
+    '/details': <CharacterDetails />
   }
 
   return content[path]
@@ -54,7 +56,7 @@ const Dashboard = () => {
     location.pathname === '/'
       ? dispatch(fetchSource('https://rickandmortyapi.com/api'))
       : dispatch(fetchSource(`https://rickandmortyapi.com/api${location.pathname.substring(0, location.pathname.length-1)}`))
-  }, [])
+  }, [location.pathname])
 
   const { data, loading, loadError } = useSelector((state) => state.source)
 
