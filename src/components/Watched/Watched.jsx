@@ -1,12 +1,15 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Grid, Typography } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+
+import Item from './Item'
 
 import { fetchMoreSource } from '../../data/actions/source'
-
-import Tile from './Tile'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,35 +21,32 @@ const useStyles = makeStyles(theme => ({
     height: '5%',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   content: {
-    overflow: 'auto',
     width: '100%',
     height: '95%',
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    alignItems: 'flex-start',
-    padding: theme.spacing(3)
+    overflow: 'auto',
+    minWidth: '600px'
   }
 }))
 
-const createTiles = (data) => {
-  if (data === undefined || !data.results) return
-  return data.results.map(res => {
+const fetchMore = (dispatch, link) => {
+  dispatch(fetchMoreSource(link))
+}
+
+const createTiles = (episodes) => {
+  if (episodes === undefined) return
+  return episodes.map(e => {
     return (
-      <Tile
-        key={res.id}
-        episode={res.episode}
-        name={res.name}
-        air_date={res.air_date}
+      <Item
+        key={e.id}
+        episode={e.episode}
+        name={e.name}
+        air_date={e.air_date}
       />
     )
   })
-}
-
-const fetchMore = (dispatch, link) => {
-  dispatch(fetchMoreSource(link))
 }
 
 const Episodes = () => {
@@ -54,19 +54,18 @@ const Episodes = () => {
   const dispatch = useDispatch()
 
   const { episodes } = useSelector((state) => state.source)
-
+  
   return (
     <Grid className={classes.root}>
       <Grid className={classes.label}>
         <Typography variant='h5'>Episodes</Typography>
       </Grid>
-      <Grid 
-        container
+      <List
         className={classes.content}
       >
-        {createTiles(episodes)}
+        {createTiles(episodes.results)}
         { episodes.info && episodes.info.next !== null && 
-          <Grid className={classes.label}>
+          <ListItem className={classes.label}>
             <Button
               variant="contained"
               color="primary"
@@ -74,9 +73,9 @@ const Episodes = () => {
             >
               Show more
             </Button>
-          </Grid>
+          </ListItem>
         }
-      </Grid>
+      </List>
     </Grid>
   )
 }

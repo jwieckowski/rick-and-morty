@@ -11,6 +11,8 @@ import Characters from '../Characters'
 import CharacterDetails from '../CharacterDetails'
 import Locations from '../Locations'
 import Episodes from '../Episodes'
+import Watched from '../Watched'
+import Favorites from '../Favorites'
 
 
 import Spinner from '../UI/Spinner'
@@ -39,7 +41,9 @@ const switchContent = (path, data) => {
     '/characters': <Characters />,
     '/locations': <Locations />,
     '/episodes': <Episodes />,
-    '/details': <CharacterDetails />
+    '/details': <CharacterDetails />,
+    '/watched': <Watched />,
+    '/favorites': <Favorites />
   }
 
   return content[path]

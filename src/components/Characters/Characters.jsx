@@ -37,13 +37,10 @@ const createTiles = (data) => {
     return (
       <Tile
         key={res.id}
+        id={res.id}
         name={res.name}
         gender={res.gender}
         image={res.image}
-        location={res.location}
-        species={res.species}
-        status={res.status}
-        origin={res.origin}
       />
     )
   })
@@ -57,7 +54,7 @@ const Characters = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
 
-  const { data } = useSelector((state) => state.source)
+  const { characters } = useSelector((state) => state.source)
 
   return (
     <Grid className={classes.root}>
@@ -68,13 +65,13 @@ const Characters = () => {
         container
         className={classes.content}
       >
-        {createTiles(data)}
-        { data.info && data.info.next !== null && 
+        {createTiles(characters)}
+        { characters.info && characters.info.next !== null && 
           <Grid className={classes.label}>
             <Button
               variant="contained"
               color="primary"
-              onClick={() => fetchMore(dispatch, data.info.next)}
+              onClick={() => fetchMore(dispatch, characters.info.next)}
             >
               Show more
             </Button>

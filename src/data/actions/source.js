@@ -13,10 +13,11 @@ export function fetchSourceStart () {
   }
 }
 
-export function fetchSourceSuccess (data) {
+export function fetchSourceSuccess (data, source) {
   return {
     type: action.SOURCE_FETCH_SUCCESS,
-    data
+    data,
+    source
   }
 }
 
@@ -40,10 +41,11 @@ export function fetchMoreSourceStart () {
   }
 }
 
-export function fetchMoreSourceSuccess (data) {
+export function fetchMoreSourceSuccess (data, source) {
   return {
     type: action.SOURCE_FETCH_MORE_SUCCESS,
-    data
+    data,
+    source
   }
 }
 
@@ -51,5 +53,12 @@ export function fetchMoreSourceFail (error) {
   return {
     type: action.SOURCE_FETCH_MORE_FAIL,
     error
+  }
+}
+
+export function setCharacter (data) {
+  return {
+    type: action.SET_CHARACTER_ACTION,
+    data
   }
 }

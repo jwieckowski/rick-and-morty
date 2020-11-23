@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -11,6 +12,8 @@ import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faVenus } from "@fortawesome/free-solid-svg-icons"
 import { faMars } from "@fortawesome/free-solid-svg-icons"
+
+import { setCharacter } from '../../../data/actions/source'
 
 const useStyles = makeStyles(theme => ({
   item: {
@@ -62,10 +65,17 @@ const showGender = (gender, classes) => {
   return icons[gender]
 }
 
-const Tile = ({ name, gender, image }) => {
+const setCurrentCharacterData = (dispatch, data, id) => {
+  dispatch(setCharacter(data.filter(d => d.id === id)[0]))
+}
+
+const Tile = ({ id, name, gender, image }) => {
   const classes = useStyles()
+  const dispatch = useDispatch()
   const [elevation, setElevation] = useState(2)
   
+  const { characters } = useSelector((state) => state.source)
+
   return (
     <Grid 
       item
@@ -74,6 +84,7 @@ const Tile = ({ name, gender, image }) => {
       <Link
         to='/details'
         className={classes.link}
+        onClick={() => setCurrentCharacterData(dispatch, characters.results, id)}
       >
         <Card
           className={classes.tile}
