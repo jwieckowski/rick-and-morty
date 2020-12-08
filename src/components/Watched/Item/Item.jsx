@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
@@ -7,6 +8,9 @@ import ListItem from '@material-ui/core/ListItem'
 import IconButton from '@material-ui/core/IconButton'
 import CheckBoxIcon from '@material-ui/icons/CheckBox'
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
+
+import { checkWatched, uncheckWatched } from '../../../data/actions/watched.js'
+
 
 const useStyles = makeStyles(theme => ({
   item: {
@@ -56,8 +60,15 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-const Item = ({episode, name, air_date}) => {
+const toggleEpisode = (dispatch, id, watched) => {
+  watched === true
+    ? dispatch(uncheckWatched(id, watched))
+    : dispatch(checkWatched(id, watched))
+}
+
+const Item = ({id, episode, name, air_date, watched}) => {
   const classes = useStyles()
+  const dispatch = useDispatch()
   const [elevation, setElevation] = useState(2)
 
   return (
@@ -85,8 +96,12 @@ const Item = ({episode, name, air_date}) => {
             color="primary"
             aria-label="episode checkbox"
             className={classes.icon}
+            onClick={() => toggleEpisode(dispatch, id, watched)}
           >
-            <CheckBoxOutlineBlankIcon />
+            { watched === true
+              ? <CheckBoxIcon />
+              : <CheckBoxOutlineBlankIcon />
+            }
           </IconButton>
         </Paper>
       </ListItem>

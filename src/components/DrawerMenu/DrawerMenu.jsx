@@ -20,6 +20,9 @@ import SlideshowIcon from '@material-ui/icons/Slideshow'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import HomeIcon from '@material-ui/icons/Home'
 
+import logo from '../../assets/logo.png'
+import rick from '../../assets/rick.png'
+
 const drawerWidth = 240
 
 const useStyles = makeStyles((theme) => ({
@@ -39,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
+    backgroundColor: '#B7E4F9'
   },
   drawerContainer: {
     overflow: 'auto',
@@ -47,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     textDecoration: 'none',
-    color: 'inherit'
+    color: 'black'
   },
   content: {
     flexGrow: 1,
@@ -57,6 +61,16 @@ const useStyles = makeStyles((theme) => ({
   grid: {
     width: '100%',
     height: 'calc(100% - 64px)'
+  },
+  logo: {
+    height: '100%',
+    maxHeight: '64px'
+  },
+  hero: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    width: '100%'
   }
 }))
 
@@ -81,17 +95,13 @@ export default function DrawerMenu({ children }) {
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" noWrap>
-            Rick and Morty
-          </Typography>
+          <img src={logo} className={classes.logo} alt='Rick and morty logo'></img>
         </Toolbar>
       </AppBar>
       <Drawer
         className={classes.drawer}
         variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
+        classes={{paper: classes.drawerPaper}}
       >
         <Toolbar />
         <div className={classes.drawerContainer}>
@@ -116,6 +126,7 @@ export default function DrawerMenu({ children }) {
               </ListItem>
             ))}
           </List>
+          <img src={rick} className={classes.hero} alt='Rick Sanchez and Morty Smith'></img>
         </div>
       </Drawer>
       <main className={classes.content}>

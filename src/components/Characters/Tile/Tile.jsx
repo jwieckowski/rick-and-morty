@@ -91,6 +91,7 @@ const Tile = ({ id, name, gender, image }) => {
           elevation={elevation}
           onMouseEnter={() => setElevation(6)}
           onMouseLeave={() => setElevation(2)}
+          style={{opacity: elevation === 2 ? '0.7' : '0.9'}}
         >
           <CardHeader
             classes={{

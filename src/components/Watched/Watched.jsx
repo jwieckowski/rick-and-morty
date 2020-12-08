@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
@@ -9,12 +9,17 @@ import ListItem from '@material-ui/core/ListItem'
 
 import Item from './Item'
 
-import { fetchMoreSource } from '../../data/actions/source'
+import { loadWatched } from '../../data/actions/watched.js'
+import background from '../../assets/background5.png'
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
-    height: '100%'
+    height: '100%',
+    backgroundImage: "url(" + background + ")",
+    backgroundPosition: 'center top',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat'
   },
   label: {
     width: '100%',
@@ -31,52 +36,48 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const fetchMore = (dispatch, link) => {
-  dispatch(fetchMoreSource(link))
-}
-
-const createTiles = (episodes) => {
-  if (episodes === undefined) return
-  return episodes.map(e => {
+const createTiles = (watchedEp) => {
+  if (watchedEp === []) return
+  return watchedEp.map(e => {
     return (
       <Item
         key={e.id}
+        id={e.id}
         episode={e.episode}
         name={e.name}
         air_date={e.air_date}
+        watched={e.watched}
       />
     )
   })
 }
 
-const Episodes = () => {
+function compareID(a, b) {
+  return a.id - b.id
+}
+
+const Watched = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
 
-  const { episodes } = useSelector((state) => state.source)
+  useEffect(() => {
+    dispatch(loadWatched('/db'))
+  }, [])
+
+  const { data } = useSelector((state) => state.watched)
+  console.log(data)
   
   return (
     <Grid className={classes.root}>
       <Grid className={classes.label}>
-        <Typography variant='h5'>Episodes</Typography>
+        <Typography variant='h5'>Watched Episodes</Typography>
       </Grid>
       <List
         className={classes.content}
       >
-        {createTiles(episodes.results)}
-        { episodes.info && episodes.info.next !== null && 
-          <ListItem className={classes.label}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => fetchMore(dispatch, episodes.info.next)}
-            >
-              Show more
-            </Button>
-          </ListItem>
-        }
+        {createTiles(data.sort(compareID))}
       </List>
     </Grid>
   )
 }
-export default Episodes
+export default Watched

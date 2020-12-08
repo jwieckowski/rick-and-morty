@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -33,7 +33,9 @@ const useStyles = makeStyles((theme) => ({
   },
   large: {
     width: theme.spacing(7),
-    height: theme.spacing(7)
+    height: theme.spacing(7),
+    backgroundColor: '#B7E4F9',
+    color: 'black'
   }
 }))
 
@@ -48,12 +50,21 @@ const switchAvatar = (text) => {
 }
 
 export default function TabItem({ text, link }) {
-  const classes = useStyles()
+  const [elevation, setElevation] = useState(4)
+  const classes = useStyles(elevation)
 
   return (
-    <ListItem className={classes.root}>
+    <ListItem
+      className={classes.root}
+      onMouseEnter={() => setElevation(6)}
+      onMouseLeave={() => setElevation(4)}
+    >
       <Link to={'/' + text} className={classes.link}>
-        <Paper elevation={4} className={classes.item}>
+        <Paper
+          elevation={elevation}
+          className={classes.item}
+          style={{opacity: elevation === 4 ? '0.7' : '0.9'}}
+        >
           <ListItemAvatar>
             <Avatar className={classes.large}>
               {switchAvatar(text)}

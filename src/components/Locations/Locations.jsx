@@ -7,11 +7,16 @@ import Button from '@material-ui/core/Button'
 import { fetchMoreSource } from '../../data/actions/source'
 
 import Tile from './Tile'
+import background from '../../assets/background4.jpg'
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
-    height: '100%'
+    height: '100%',
+    backgroundImage: "url(" + background + ")",
+    backgroundPosition: 'center top',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat'
   },
   label: {
     width: '100%',

@@ -24,17 +24,13 @@ const fetchSourceSuccess = (state, action) => {
     data: !action.source.includes('character') &&
           !action.source.includes('location') &&
           !action.source.includes('episode')
-      ? action.data
-      : {},
+      && action.data,
     characters: action.source.includes('character')
-      ? action.data
-      : {},
+      && action.data,
     locations: action.source.includes('location')
-      ? action.data
-      : {},
+      && action.data,
     episodes: action.source.includes('episode')
-      ? action.data
-      : {},
+      && action.data,
     loading: false,
     loadError: undefined
   }

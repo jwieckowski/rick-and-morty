@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 
 import TabItem from '../Dashboard/TabItem'
+import background from '../../assets/background.jpg'
 
 const useStyles = makeStyles({
   root: {
@@ -11,7 +12,11 @@ const useStyles = makeStyles({
     height: '100%',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundImage: "url(" + background + ")",
+    backgroundPosition: 'center top',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat'
   },
   tabs: {
     width: '50%',
@@ -38,7 +43,9 @@ const HomePage = ({ data }) => {
   const classes = useStyles()
   
   return (
-    <Grid className={classes.root}>
+    <Grid
+      className={classes.root}
+    >
       <List className={classes.tabs}>
         {createTabs(data)}
       </List>

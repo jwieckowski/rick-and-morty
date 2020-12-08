@@ -35,6 +35,7 @@ const Tile = ({ name, dimension, residents, type }) => {
         elevation={elevation}
         onMouseEnter={() => setElevation(6)}
         onMouseLeave={() => setElevation(2)}
+        style={{opacity: elevation === 2 ? '0.7' : '0.9'}}
       >
         <Typography variant='h6' className={classes.text}>{name}</Typography>
         <Typography variant='subtitle2' className={classes.text}>

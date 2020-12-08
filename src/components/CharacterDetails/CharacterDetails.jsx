@@ -9,10 +9,16 @@ import { fetchSource } from '../../data/actions/source'
 import Spinner from '../UI/Spinner'
 import Page404 from '../UI/Page404'
 
+import background from '../../assets/background6.jpg'
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
-    height: '100%'
+    height: '100%',
+    backgroundImage: "url(" + background + ")",
+    backgroundPosition: 'center top',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat'
   },
   image: {
     width: '100%',
@@ -24,7 +30,8 @@ const useStyles = makeStyles(theme => ({
   name: {
     width: '30%',
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    color: 'white'
   },
   avatar: {
     width: '300px',
@@ -46,7 +53,8 @@ const useStyles = makeStyles(theme => ({
   text: {
     width: '70%',
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    color: 'white'
   },
   header: {
     width: '35%'
@@ -57,7 +65,8 @@ const useStyles = makeStyles(theme => ({
   },
   episodes: {
     height: '80%',
-    width: '80%'
+    width: '80%',
+    opacity: '0.8'
   },
   episodeText: {
     display: 'flex',
