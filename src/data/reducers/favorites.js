@@ -43,7 +43,10 @@ const addFavoriteStart = (state, action) => {
 const addFavoriteSuccess = (state, action) => {
   return {
     ...state,
-    data:  [...state.data, action.favorite]
+    data:  [...state.data, {
+      _id: state.data.length + 1,
+      content: action.favorite.content
+    }]
   }
 }
 
@@ -67,8 +70,8 @@ const deleteFavoriteSuccess = (state, action) => {
   return {
     ...state,
     data: [...state.data.filter(d => {
-      if (d.type !== action.favorite.type) return d
-      if (d.id !== action.favorite.id) return d
+      if (d.content.tileType !== action.favorite.tileType) return d
+      if (d.content.id !== action.favorite.id) return d
     })]
   }
 }

@@ -50,7 +50,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
       })
     
     app.get('/favorites', (req, res) => {
-      // favorites.drop()
       const cursor = favorites.find().toArray()
       .then(results => {
         res.send(results)
@@ -59,24 +58,32 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     })
     
     app.post('/favorites', (req, res) => {
-      favorites.insertOne(req.body)
-      .then(result => {
-        res.sendStatus(200)
-      })
-      .catch(err => {
-        res.sendStatus(400)
+      const d = favorites.countDocuments()
+      .then(count => {
+        favorites.insertOne({
+          _id: count + 1,
+          content: req.body.content
+        })
+        .then(result => {
+          res.sendStatus(200)
+        })
+        .catch(err => {
+          res.sendStatus(400)
+        })
       })
     })
 
     app.delete('/favorites', (req, res) => {
-        favorites.deleteOne({
-          "content":{
-            "id": req.body.id,
-            "type": req.body.type
-            } 
-        })
+        favorites.find().toArray()
         .then(result => {
-          res.sendStatus(200)
+          const id = result.filter(r => r.content.id === req.body.favorite.id && r.content.tileType === req.body.favorite.tileType)[0]._id
+          favorites.deleteOne({ "_id": id})
+          .then(result => {
+            res.sendStatus(200)
+          })
+          .catch(err => {
+            res.sendStatus(400)
+          })
         })
         .catch(err => {
           res.sendStatus(400)

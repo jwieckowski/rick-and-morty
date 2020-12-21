@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
 
 const handleClick = (e, dispatch, body, favorites) => {
   e.preventDefault()
-  body.type = 'Location'
+  body.tileType = 'Location'
   favorites.includes(body.id)
     ? dispatch(deleteFavorite(body))
     : dispatch(addFavorite(body))
@@ -52,7 +52,7 @@ const Tile = ({ id, name, dimension, residents, type }) => {
   const [elevation, setElevation] = useState(2)
 
   const { data } = useSelector((state) => state.favorites)
-  const favorites = data.map(d => d.type === 'Location' && d.id)
+  const favorites = data.map(d => d.content.tileType === 'Location' && d.content.id)
 
   return (
     <Grid 

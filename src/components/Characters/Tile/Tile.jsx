@@ -79,7 +79,7 @@ const showGender = (gender, classes) => {
 
 const handleClick = (e, dispatch, body, favorites) => {
   e.preventDefault()
-  body.type = 'Character'
+  body.tileType = 'Character'
   favorites.includes(body.id)
     ? dispatch(deleteFavorite(body))
     : dispatch(addFavorite(body))
@@ -97,7 +97,7 @@ const Tile = ({ id, name, gender, image }) => {
   const { characters } = useSelector((state) => state.source)
   const { data } = useSelector((state) => state.favorites)
 
-  const favorites = data.map(d => d.type === 'Character' && d.id)
+  const favorites = data.map(d => d.content.tileType === 'Character' && d.content.id)
 
   return (
     <Grid 

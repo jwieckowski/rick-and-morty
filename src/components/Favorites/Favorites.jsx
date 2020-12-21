@@ -39,10 +39,10 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const createTiles = (data) => {
-  if (data === []) return
+  if (data === [] || data.length === 0) return
   return data.map(d => {
     let content
-    if (d.content.type === 'Character') {
+    if (d.content.tileType === 'Character') {
       content = (
         <CharacterTile
         key={d._id}
@@ -52,7 +52,7 @@ const createTiles = (data) => {
         image={d.content.image}
       />
       )
-    } else if (d.content.type === 'Location') {
+    } else if (d.content.tileType === 'Location') {
       content = (
         <LocationTile
           key={d._id}
@@ -63,7 +63,7 @@ const createTiles = (data) => {
           type={d.content.type}
         />
       )
-    } else if (d.content.type === 'Episode') {
+    } else if (d.content.tileType === 'Episode') {
       content = (
           <EpisodeTile
           key={d._id}
@@ -88,7 +88,6 @@ const Favorites = () => {
   }, [])
 
   const { data } = useSelector((state) => state.favorites)
-  console.log(data)
 
   return (
     <Grid className={classes.root}>

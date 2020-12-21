@@ -62,7 +62,7 @@ const useStyles = makeStyles(theme => ({
 
 const handleClick = (e, dispatch, body, favorites) => {
   e.preventDefault()
-  body.type = 'Episode'
+  body.tileType = 'Episode'
   favorites.includes(body.id)
     ? dispatch(deleteFavorite(body))
     : dispatch(addFavorite(body))
@@ -74,7 +74,7 @@ const Tile = ({ id, episode, name, air_date }) => {
   const [elevation, setElevation] = useState(2)
 
   const { data } = useSelector((state) => state.favorites)
-  const favorites = data.map(d => d.type === 'Episode' && d.id)
+  const favorites = data.map(d => d.content.tileType === 'Episode' && d.content.id)
 
   return (
     <Grid 

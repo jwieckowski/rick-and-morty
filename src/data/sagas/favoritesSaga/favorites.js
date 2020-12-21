@@ -25,8 +25,8 @@ export function * loadFavoritesSaga (source) {
 export function * addFavoriteSaga (favorite) {
   yield put(addFavoriteStart())
   try {
-    yield call(addFavorite, favorite)
-    yield put(addFavoriteSuccess(favorite.favorite))
+    const result = yield call(addFavorite, favorite)
+    yield put(addFavoriteSuccess(JSON.parse(result.config.data)))
   } catch (error) {
     yield put(addFavoriteFail(error))
   }

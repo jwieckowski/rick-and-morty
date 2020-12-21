@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Grid, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 
 import { fetchMoreSource } from '../../data/actions/source'
+import { loadFavorites } from '../../data/actions/favorites'
 
 import Tile from './Tile'
 import background from '../../assets/background4.jpg'
@@ -61,6 +62,10 @@ const Locations = () => {
   const dispatch = useDispatch()
 
   const { locations } = useSelector((state) => state.source)
+
+  useEffect(() => {
+    dispatch(loadFavorites('/favorites'))
+  }, [])
 
   return (
     <Grid className={classes.root}>
