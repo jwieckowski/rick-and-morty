@@ -12,8 +12,11 @@ import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faVenus } from "@fortawesome/free-solid-svg-icons"
 import { faMars } from "@fortawesome/free-solid-svg-icons"
+import FavoriteIcon from '@material-ui/icons/Favorite'
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 
 import { setCharacter } from '../../../data/actions/source'
+import { addFavorite, deleteFavorite } from '../../../data/actions/favorites'
 
 const useStyles = makeStyles(theme => ({
   item: {
@@ -47,6 +50,11 @@ const useStyles = makeStyles(theme => ({
     top: 10,
     right: 20
   },
+  favorite: {
+    position: 'absolute',
+    top: 10,
+    left: 20
+  },
   iconMen: {
     fontSize: '30px',
     color: '#18B3EC'
@@ -54,6 +62,10 @@ const useStyles = makeStyles(theme => ({
   iconWomen: {
     fontSize: '30px',
     color: '#f8b9d4'
+  },
+  favoriteIcon: {
+    fontSize: '30px',
+    color: '#E33333'
   }
 }))
 
@@ -63,6 +75,14 @@ const showGender = (gender, classes) => {
     'Female':  <FontAwesomeIcon icon={faVenus} className={classes.iconWomen}/>
   }
   return icons[gender]
+}
+
+const handleClick = (e, dispatch, body, favorites) => {
+  e.preventDefault()
+  body.type = 'Character'
+  favorites.includes(body.id)
+    ? dispatch(deleteFavorite(body))
+    : dispatch(addFavorite(body))
 }
 
 const setCurrentCharacterData = (dispatch, data, id) => {
@@ -75,6 +95,9 @@ const Tile = ({ id, name, gender, image }) => {
   const [elevation, setElevation] = useState(2)
   
   const { characters } = useSelector((state) => state.source)
+  const { data } = useSelector((state) => state.favorites)
+
+  const favorites = data.map(d => d.type === 'Character' && d.id)
 
   return (
     <Grid 
@@ -112,7 +135,17 @@ const Tile = ({ id, name, gender, image }) => {
           </CardActions>
         </Card>
         <Grid className={classes.gender}>
-            {showGender(gender, classes)}
+          {showGender(gender, classes)}
+        </Grid>
+        <Grid
+          className={classes.favorite}
+          onClick={(e) => handleClick(e, dispatch, { id, name, gender, image }, favorites)}
+        >
+          {
+            favorites.includes(id)
+              ? <FavoriteIcon className={classes.favoriteIcon} />
+              : <FavoriteBorderIcon className={classes.favoriteIcon} />
+          }
         </Grid>
       </Link>
     </Grid>

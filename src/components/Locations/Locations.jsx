@@ -42,6 +42,7 @@ const createTiles = (data) => {
     return (
       <Tile
         key={res.id}
+        id={res.id}
         name={res.name}
         dimension={res.dimension}
         residents={res.residents}

@@ -1,7 +1,13 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Grid, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
+
+import FavoriteIcon from '@material-ui/icons/Favorite'
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
+
+import { addFavorite, deleteFavorite } from '../../../data/actions/favorites'
 
 const useStyles = makeStyles(theme => ({
   tile: {
@@ -12,6 +18,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     cursor: 'pointer',
+    position: 'relative',
     marginBottom: theme.spacing(2),
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1)
@@ -19,12 +26,33 @@ const useStyles = makeStyles(theme => ({
   text: {
     width: '80%',
     textAlign: 'center'
+  },
+  favorite: {
+    position: 'absolute',
+    top: 10,
+    left: 20
+  },
+  favoriteIcon: {
+    fontSize: '30px',
+    color: '#E33333'
   }
 }))
 
-const Tile = ({ name, dimension, residents, type }) => {
+const handleClick = (e, dispatch, body, favorites) => {
+  e.preventDefault()
+  body.type = 'Location'
+  favorites.includes(body.id)
+    ? dispatch(deleteFavorite(body))
+    : dispatch(addFavorite(body))
+}
+
+const Tile = ({ id, name, dimension, residents, type }) => {
   const classes = useStyles()
+  const dispatch = useDispatch()
   const [elevation, setElevation] = useState(2)
+
+  const { data } = useSelector((state) => state.favorites)
+  const favorites = data.map(d => d.type === 'Location' && d.id)
 
   return (
     <Grid 
@@ -43,6 +71,16 @@ const Tile = ({ name, dimension, residents, type }) => {
           {dimension}</Typography>
         <Typography variant='body2' className={classes.text}>Residents: {residents.length}</Typography>
         <Typography variant='body2' className={classes.text}>Type: {type}</Typography>
+        <Grid
+          className={classes.favorite}
+          onClick={(e) => handleClick(e, dispatch, { id, name, dimension, residents, type }, favorites)}
+        >
+          {
+            favorites.includes(id)
+              ? <FavoriteIcon className={classes.favoriteIcon} />
+              : <FavoriteBorderIcon className={classes.favoriteIcon} />
+          }
+        </Grid>
       </Paper>
     </Grid>
   )

@@ -65,7 +65,6 @@ const Watched = () => {
   }, [])
 
   const { data } = useSelector((state) => state.watched)
-  console.log(data)
   
   return (
     <Grid className={classes.root}>

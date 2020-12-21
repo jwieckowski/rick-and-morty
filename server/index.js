@@ -23,6 +23,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     
     const db = client.db('RickMorty')
     const watched = db.collection('watched')
+    const favorites = db.collection('favorites')
 
     app.get('/', (req, res) => {
       res.sendFile(HTML_FILE)
@@ -41,6 +42,40 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
           {"_id": req.body.id},
           {$set: {"watched": !req.body.watched}}  
         ).then(result => {
+          res.sendStatus(200)
+        })
+        .catch(err => {
+          res.sendStatus(400)
+        })
+      })
+    
+    app.get('/favorites', (req, res) => {
+      // favorites.drop()
+      const cursor = favorites.find().toArray()
+      .then(results => {
+        res.send(results)
+      })
+      .catch(error => console.error(error))
+    })
+    
+    app.post('/favorites', (req, res) => {
+      favorites.insertOne(req.body)
+      .then(result => {
+        res.sendStatus(200)
+      })
+      .catch(err => {
+        res.sendStatus(400)
+      })
+    })
+
+    app.delete('/favorites', (req, res) => {
+        favorites.deleteOne({
+          "content":{
+            "id": req.body.id,
+            "type": req.body.type
+            } 
+        })
+        .then(result => {
           res.sendStatus(200)
         })
         .catch(err => {

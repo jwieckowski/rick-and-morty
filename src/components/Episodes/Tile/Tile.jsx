@@ -4,6 +4,11 @@ import { Grid, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
+import FavoriteIcon from '@material-ui/icons/Favorite'
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
+
+import { addFavorite, deleteFavorite } from '../../../data/actions/favorites'
+
 const useStyles = makeStyles(theme => ({
   tile: {
     width: '200px',
@@ -43,12 +48,33 @@ const useStyles = makeStyles(theme => ({
     borderTop: '1px solid gray',
     width: '100%',
     textAlign: 'end'
+  },
+  favorite: {
+    position: 'absolute',
+    top: 10,
+    left: 20
+  },
+  favoriteIcon: {
+    fontSize: '30px',
+    color: '#E33333'
   }
 }))
 
-const Tile = ({ episode, name, air_date }) => {
+const handleClick = (e, dispatch, body, favorites) => {
+  e.preventDefault()
+  body.type = 'Episode'
+  favorites.includes(body.id)
+    ? dispatch(deleteFavorite(body))
+    : dispatch(addFavorite(body))
+}
+
+const Tile = ({ id, episode, name, air_date }) => {
   const classes = useStyles()
+  const dispatch = useDispatch()
   const [elevation, setElevation] = useState(2)
+
+  const { data } = useSelector((state) => state.favorites)
+  const favorites = data.map(d => d.type === 'Episode' && d.id)
 
   return (
     <Grid 
@@ -71,6 +97,16 @@ const Tile = ({ episode, name, air_date }) => {
           <Grid className={classes.date}>
             {air_date}
           </Grid>
+        </Grid>
+        <Grid
+          className={classes.favorite}
+          onClick={(e) => handleClick(e, dispatch, { id, episode, name, air_date }, favorites)}
+        >
+          {
+            favorites.includes(id)
+              ? <FavoriteIcon className={classes.favoriteIcon} />
+              : <FavoriteBorderIcon className={classes.favoriteIcon} />
+          }
         </Grid>
       </Paper>
     </Grid>

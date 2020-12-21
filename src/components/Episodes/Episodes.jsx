@@ -42,6 +42,7 @@ const createTiles = (data) => {
     return (
       <Tile
         key={res.id}
+        id={res.id}
         episode={res.episode}
         name={res.name}
         air_date={res.air_date}

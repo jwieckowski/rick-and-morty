@@ -60,6 +60,7 @@ const Characters = () => {
   const dispatch = useDispatch()
 
   const { characters } = useSelector((state) => state.source)
+  const { data } = useSelector((state) => state.favorites)
 
   return (
     <Grid className={classes.root}>
